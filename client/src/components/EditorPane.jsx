@@ -54,7 +54,6 @@ export default function EditorPane({ language, code, onChange, theme }) {
           roundedSelection: false,
           readOnly: false,
           cursorStyle: 'line',
-          automaticLayout: true,
         }}
         onChange={(value) => onChange(value || '')}
       />
