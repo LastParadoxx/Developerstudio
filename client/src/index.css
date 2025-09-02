@@ -1,0 +1,336 @@
+/* Import futuristic font */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Fira+Code:wght@300;400;500&display=swap');
+
+/* Basic global styles */
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Orbitron', 'Fira Code', monospace;
+  background: var(--bg-gradient);
+  color: var(--text-color);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+/* Futuristic animated background */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 0, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(0, 255, 128, 0.05) 0%, transparent 50%);
+  animation: gradientShift 10s ease-in-out infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes gradientShift {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Light theme variables */
+:root {
+  --bg-gradient: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #0a0a0a 100%);
+  --text-color: #00ffff;
+  --text-secondary: #ffffff;
+  --pane-bg: rgba(10, 20, 30, 0.9);
+  --pane-border: rgba(0, 255, 255, 0.3);
+  --border-color: rgba(0, 255, 255, 0.5);
+  --button-bg: linear-gradient(145deg, rgba(0, 255, 255, 0.1), rgba(0, 100, 255, 0.1));
+  --button-text: #00ffff;
+  --button-hover: rgba(0, 255, 255, 0.2);
+  --accent-color: #ff0080;
+  --success-color: #00ff88;
+  --warning-color: #ffaa00;
+  --error-color: #ff4444;
+  --shadow-glow: 0 0 20px rgba(0, 255, 255, 0.3);
+  --shadow-glow-hover: 0 0 30px rgba(0, 255, 255, 0.5);
+}
+
+/* Dark theme overrides (enhanced) */
+[data-theme='dark'] {
+  --bg-gradient: linear-gradient(135deg, #000000 0%, #0a0a1e 25%, #0f1b2e 50%, #1a2a4a 75%, #000000 100%);
+  --text-color: #00ff88;
+  --text-secondary: #ffffff;
+  --pane-bg: rgba(5, 15, 25, 0.95);
+  --pane-border: rgba(0, 255, 128, 0.3);
+  --border-color: rgba(0, 255, 128, 0.5);
+  --button-bg: linear-gradient(145deg, rgba(0, 255, 128, 0.1), rgba(0, 200, 100, 0.1));
+  --button-text: #00ff88;
+  --button-hover: rgba(0, 255, 128, 0.2);
+  --accent-color: #ff6b35;
+  --shadow-glow: 0 0 20px rgba(0, 255, 128, 0.3);
+  --shadow-glow-hover: 0 0 30px rgba(0, 255, 128, 0.5);
+}
+
+/* General layout styles */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: relative;
+  background: transparent;
+}
+
+/* Futuristic header with neon glow */
+.toolbar {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 2rem;
+  background: var(--pane-bg);
+  border-bottom: 2px solid var(--border-color);
+  align-items: center;
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-glow);
+  position: relative;
+  z-index: 10;
+}
+
+.toolbar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+  animation: scanline 2s linear infinite;
+}
+
+@keyframes scanline {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.toolbar button {
+  background: var(--button-bg);
+  color: var(--button-text);
+  border: 1px solid var(--border-color);
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-family: 'Orbitron', monospace;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(5px);
+}
+
+.toolbar button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.toolbar button:hover {
+  background: var(--button-hover);
+  box-shadow: var(--shadow-glow-hover);
+  transform: translateY(-2px);
+  border-color: var(--text-color);
+}
+
+.toolbar button:hover::before {
+  left: 100%;
+}
+
+.toolbar button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.main-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  gap: 2px;
+  padding: 0.5rem;
+}
+
+.editor-pane,
+.output-pane {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--pane-bg);
+  border: 1px solid var(--pane-border);
+  border-radius: 12px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-glow);
+  position: relative;
+}
+
+.editor-pane::before,
+.output-pane::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  background: linear-gradient(135deg, var(--accent-color), var(--text-color));
+  opacity: 0.1;
+  z-index: 1;
+}
+
+.language-selector {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-right: auto;
+}
+
+.language-selector select {
+  padding: 0.6rem 1rem;
+  background: var(--pane-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.language-selector select:hover,
+.language-selector select:focus {
+  border-color: var(--text-color);
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+  outline: none;
+}
+
+.output-area {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  font-family: 'Fira Code', monospace;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 0 0 12px 12px;
+  position: relative;
+  z-index: 2;
+}
+
+.output-area .stdout {
+  color: var(--success-color);
+  text-shadow: 0 0 5px rgba(0, 255, 136, 0.5);
+}
+
+.output-area .stderr {
+  color: var(--error-color);
+  text-shadow: 0 0 5px rgba(255, 68, 68, 0.5);
+}
+
+/* Scrollbar styling */
+.output-area::-webkit-scrollbar {
+  width: 8px;
+}
+
+.output-area::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.output-area::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+.output-area::-webkit-scrollbar-thumb:hover {
+  background: var(--text-color);
+}
+
+/* Footer with email */
+.footer {
+  padding: 1rem 2rem;
+  text-align: center;
+  background: var(--pane-bg);
+  border-top: 1px solid var(--border-color);
+  backdrop-filter: blur(10px);
+  font-family: 'Fira Code', monospace;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  position: relative;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+  animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+.email-link {
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+}
+
+.email-link:hover {
+  color: var(--accent-color);
+  text-shadow: 0 0 10px rgba(255, 0, 128, 0.8);
+  transform: scale(1.05);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .main-content {
+    flex-direction: column;
+  }
+  
+  .toolbar {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 1rem;
+  }
+  
+  .toolbar button {
+    padding: 0.6rem 1rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Loading animation */
+@keyframes loading {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading {
+  animation: loading 1s linear infinite;
+}
