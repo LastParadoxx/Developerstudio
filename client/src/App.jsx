@@ -45,7 +45,7 @@ console.log(greetDeveloper("Ahmed"));`);
   useEffect(() => {
     async function fetchLanguages() {
       try {
-        const res = await axios.get('/api/languages');
+        const res = await axios.get('https://developerstudio.onrender.com/api/languages');
         setLanguages(res.data);
         if (res.data.length > 0) {
           setSelected({ language: res.data[0].language, version: res.data[0].version });
@@ -67,7 +67,7 @@ console.log(greetDeveloper("Ahmed"));`);
     setRunning(true);
     setOutput(null);
     try {
-      const res = await axios.post('/api/run', {
+      const res = await axios.post('https://developerstudio.onrender.com/api/run', {
         language: selected.language,
         version: selected.version,
         code
@@ -83,7 +83,7 @@ console.log(greetDeveloper("Ahmed"));`);
   // Save snippet to server and copy id to clipboard
   const handleSave = async () => {
     try {
-      const res = await axios.post('/api/snippets', { code, language: selected.language });
+      const res = await axios.post('https://developerstudio.onrender.com/api/snippets', { code, language: selected.language });
       const id = res.data.id;
       await navigator.clipboard.writeText(id);
       alert(`Snippet saved! ID copied to clipboard: ${id}`);
@@ -97,7 +97,7 @@ console.log(greetDeveloper("Ahmed"));`);
     const id = prompt('Enter snippet ID');
     if (!id) return;
     try {
-      const res = await axios.get(`/api/snippets/${id}`);
+      const res = await axios.get(`https://developerstudio.onrender.com/api/snippets/${id}`);
       setCode(res.data.code);
       if (res.data.language) {
         setSelected({ language: res.data.language, version: '' });
